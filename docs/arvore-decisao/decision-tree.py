@@ -1,47 +1,55 @@
-import re
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn import tree
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score
 
-PATH_DATA = "source"  # onde estão spambase.csv e spambase.names
+PATH_DATA = "../../source"
+PATH_OUT  = "."
 
-# Ler nomes das colunas do .names
-colnames = []
-with open(f"{PATH_DATA}/spambase.names", "r", encoding="utf-8", errors="ignore") as f:
-    for ln in f:
-        ln = ln.strip()
-        if not ln or ln.startswith("|"):
-            continue
-        m = re.match(r"^([A-Za-z0-9_\.]+)\s*:", ln)
-        if m:
-            colnames.append(m.group(1))
-colnames = colnames[:57] + ["is_spam"]  # 57 features + alvo
+# Lista oficial (58 colunas) — substitui o .names
+colnames = [
+    "word_freq_make","word_freq_address","word_freq_all","word_freq_3d","word_freq_our",
+    "word_freq_over","word_freq_remove","word_freq_internet","word_freq_order","word_freq_mail",
+    "word_freq_receive","word_freq_will","word_freq_people","word_freq_report","word_freq_addresses",
+    "word_freq_free","word_freq_business","word_freq_email","word_freq_you","word_freq_credit",
+    "word_freq_your","word_freq_font","word_freq_000","word_freq_money","word_freq_hp",
+    "word_freq_hpl","word_freq_george","word_freq_650","word_freq_lab","word_freq_labs",
+    "word_freq_telnet","word_freq_857","word_freq_data","word_freq_415","word_freq_85",
+    "word_freq_technology","word_freq_1999","word_freq_parts","word_freq_pm","word_freq_direct",
+    "word_freq_cs","word_freq_meeting","word_freq_original","word_freq_project","word_freq_re",
+    "word_freq_edu","word_freq_table","word_freq_conference",
+    "char_freq_;","char_freq_(","char_freq_[","char_freq_!","char_freq_$","char_freq_#",
+    "capital_run_length_average","capital_run_length_longest","capital_run_length_total",
+    "is_spam"
+]
 
-# Ler dados (sem header) e aplicar nomes
-df = pd.read_csv(f"{PATH_DATA}/spambase.csv", header=None)
-df.columns = colnames
+# Ler dados já com nomes corretos
+df = pd.read_csv(f"{PATH_DATA}/spambase.csv", header=None, names=colnames)
 
-# Separar X / y
-X = df.drop(columns=["is_spam"])
-y = df["is_spam"].astype(int)
+# Renomear algumas colunas (opcional)
+df = df.rename(columns={
+    "word_freq_free": "freq_palavra_free",
+    "word_freq_money": "freq_palavra_dinheiro",
+    "char_freq_!": "freq_exclamacao",
+    "char_freq_$": "freq_cifrao",
+    "capital_run_length_average": "media_capslock",
+    "capital_run_length_longest": "maior_seq_capslock",
+    "capital_run_length_total": "total_capslock",
+    "is_spam": "alvo_spam"
+})
 
-# Split (igual ao prof; se quiser, pode pôr stratify=y)
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+X = df.drop(columns=["alvo_spam"])
+y = df["alvo_spam"].astype(int)
 
-# Treinar e avaliar
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
 classifier = DecisionTreeClassifier(random_state=42)
 classifier.fit(X_train, y_train)
-accuracy = classifier.score(X_test, y_test)
-print(f"Accuracy: {accuracy:.2f}")
+print(f"Accuracy: {classifier.score(X_test, y_test):.2f}")
 
-# Plotar árvore (parcial) e salvar SVG
 plt.figure(figsize=(12, 10))
 tree.plot_tree(classifier, max_depth=3, filled=True)
 plt.tight_layout()
-plt.savefig("docs/arvore-decisao/tree.svg", format="svg")
+plt.savefig(f"{PATH_OUT}/tree.svg", format="svg")
 plt.close()
