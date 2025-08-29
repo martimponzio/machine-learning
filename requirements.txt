@@ -15,7 +15,8 @@ numpy
 pandas
 yfinance
 scikit-learn
-
+sklearn.tree
+sklearn
 
 
 

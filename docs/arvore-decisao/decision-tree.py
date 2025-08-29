@@ -1,11 +1,13 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+from pathlib import Path
 from sklearn import tree
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 
-PATH_DATA = "source"
-PATH_OUT  = "."
+PATH_DATA = Path("source")
+PATH_OUT  = Path(".")
+PATH_OUT.mkdir(parents=True, exist_ok=True)
 
 # Tive que fazer isso, porque o arquivo para ler as colunas não estava lendo 58 e apenas 52.
 colnames = [
@@ -25,14 +27,13 @@ colnames = [
 ]
 
 # Ler dados 
-df = pd.read_csv(f"{PATH_DATA}/spambase.csv", header=None, names=colnames)
+df = pd.read_csv(PATH_DATA / "spambase.csv", header=None, names=colnames)
 
-    
 # Separação y e X
 X = df.drop(columns=["is_spam"])
 y = df["is_spam"].astype(int)
 
-#Divisão treino/teste (80% treino, 20% teste)
+# Divisão treino/teste (80% treino, 20% teste)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Treinamento do modelo e avaliação
@@ -44,5 +45,5 @@ print(f"Accuracy: {classifier.score(X_test, y_test):.2f}")
 plt.figure(figsize=(12, 10))
 tree.plot_tree(classifier, max_depth=3, filled=True)
 plt.tight_layout()
-plt.savefig(f"{PATH_OUT}/tree.svg", format="svg")
+plt.savefig(PATH_OUT / "tree.png", dpi=200)
 plt.close()

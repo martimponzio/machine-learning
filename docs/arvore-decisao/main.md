@@ -87,6 +87,11 @@ isso quer dizer que, de cada 100 emails, cerca de 92 foram classificados correta
 
 ## Conclusão
 
+## Visualização da Árvore
+
+![Árvore de decisão](tree.png)
+
+
 O modelo de Árvore de Decisão treinado sobre o dataset Spambase apresentou um desempenho consistente, alcançando aproximadamente 92% de acurácia nos testes. Esse resultado indica que o algoritmo conseguiu aprender de forma eficaz os padrões que diferenciam emails de spam e não-spam.
 
 A análise exploratória mostrou que spams costumam utilizar com maior frequência palavras como “you” e “your”, empregam intensivamente caracteres especiais como “!” e “$”, e fazem uso exagerado de maiúsculas para chamar a atenção do leitor. Esses elementos refletem estratégias típicas de mensagens indesejadas.
