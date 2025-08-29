@@ -27,20 +27,10 @@ colnames = [
 # Ler dados 
 df = pd.read_csv(f"{PATH_DATA}/spambase.csv", header=None, names=colnames)
 
-# Renomear algumas colunas 
-df = df.rename(columns={
-    "word_freq_free": "freq_palavra_free",
-    "word_freq_money": "freq_palavra_dinheiro",
-    "char_freq_!": "freq_exclamacao",
-    "char_freq_$": "freq_cifrao",
-    "capital_run_length_average": "media_capslock",
-    "capital_run_length_longest": "maior_seq_capslock",
-    "capital_run_length_total": "total_capslock",
-    "is_spam": "alvo_spam"
-})
+    
 # Separação y e X
-X = df.drop(columns=["alvo_spam"])
-y = df["alvo_spam"].astype(int)
+X = df.drop(columns=["is_spam"])
+y = df["is_spam"].astype(int)
 
 #Divisão treino/teste (80% treino, 20% teste)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -50,6 +40,7 @@ classifier = DecisionTreeClassifier(random_state=42)
 classifier.fit(X_train, y_train)
 print(f"Accuracy: {classifier.score(X_test, y_test):.2f}")
 
+# Visualização da árvore de decisão
 plt.figure(figsize=(12, 10))
 tree.plot_tree(classifier, max_depth=3, filled=True)
 plt.tight_layout()
