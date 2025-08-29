@@ -134,7 +134,7 @@ extra_javascript:
 nav:
   - Home: index.md
   - Árvore de Decisão: ./arvore-decisao/main.md
-  - Árvore de Decisão: ./exploracao-dados/main.md
+  - Exploração de Dados: ./exploracao-dados/main.md
   - Roteiros:
     - Roteiro 1: ./roteiro1/main.md
     - Roteiro 2: ./roteiro2/main.md

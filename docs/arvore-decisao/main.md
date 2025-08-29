@@ -2,7 +2,7 @@
 
 Para o projeto foi utilizado o dataset [Spambase](https://archive.ics.uci.edu/dataset/94/spambase)
 
-O dataset utilizado foi o Spambase, Ele contém 4601 observações, no qual são emails e apresenta 58 atributos, sendo 57 características para avaliar se i email é spam ou não e 1 alvo indicando spam ou não-spam.
+O dataset utilizado foi o Spambase, Ele contém 4601 observações, no qual são emails e apresenta 58 atributos, sendo 57 características para avaliar se o email é spam ou não e 1 alvo indicando spam ou não-spam.
 
 Desses 4601 observações chegamos que 2788 são não-spam e 1813 são spam (df["is_spam"].value_counts()).
 
@@ -43,3 +43,5 @@ classifier.fit(X_train, y_train)
 O modelo atingiu 92% de acurácia nos dados de teste.
 
 ## Conclusão
+
+A partir da avaliação o modelo indica bom desempenho para esta base. 
