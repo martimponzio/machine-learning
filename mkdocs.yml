@@ -1,8 +1,8 @@
-site_name: Template de Entrega
+site_name: machine-learning - SpamBase
 site_author: Ponzio, Martim
-site_url: https://hsandmann.github.io/documentation.template
-repo_url: https://github.com/hsandmann/documentation.template
-repo_name: github/documentation.template
+site_url: https://martimponzio.github.io/machine-learning
+repo_url: https://github.com/martimponzio/machine-learning
+repo_name: github/machine-learning
 
 theme:
   name: material
@@ -134,6 +134,7 @@ extra_javascript:
 nav:
   - Home: index.md
   - Árvore de Decisão: ./arvore-decisao/main.md
+  - Árvore de Decisão: ./exploracao-dados/main.md
   - Roteiros:
     - Roteiro 1: ./roteiro1/main.md
     - Roteiro 2: ./roteiro2/main.md

@@ -4,10 +4,10 @@ from sklearn import tree
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 
-PATH_DATA = "../../source"
+PATH_DATA = "source"
 PATH_OUT  = "."
 
-# Lista oficial (58 colunas) — substitui o .names
+# Tive que fazer isso, porque o arquivo para ler as colunas não estava lendo 58 e apenas 52.
 colnames = [
     "word_freq_make","word_freq_address","word_freq_all","word_freq_3d","word_freq_our",
     "word_freq_over","word_freq_remove","word_freq_internet","word_freq_order","word_freq_mail",
@@ -24,10 +24,10 @@ colnames = [
     "is_spam"
 ]
 
-# Ler dados já com nomes corretos
+# Ler dados 
 df = pd.read_csv(f"{PATH_DATA}/spambase.csv", header=None, names=colnames)
 
-# Renomear algumas colunas (opcional)
+# Renomear algumas colunas 
 df = df.rename(columns={
     "word_freq_free": "freq_palavra_free",
     "word_freq_money": "freq_palavra_dinheiro",
@@ -38,12 +38,14 @@ df = df.rename(columns={
     "capital_run_length_total": "total_capslock",
     "is_spam": "alvo_spam"
 })
-
+# Separação y e X
 X = df.drop(columns=["alvo_spam"])
 y = df["alvo_spam"].astype(int)
 
+#Divisão treino/teste (80% treino, 20% teste)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+# Treinamento do modelo e avaliação
 classifier = DecisionTreeClassifier(random_state=42)
 classifier.fit(X_train, y_train)
 print(f"Accuracy: {classifier.score(X_test, y_test):.2f}")
