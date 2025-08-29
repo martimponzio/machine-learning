@@ -110,7 +110,8 @@ plugins:
       enable_creation_date: true
   - git-authors
   - git-committers:
-      repository: hsandmann/hsandmann.github.com
+      enabled: false
+      repository: martimponzio/machine-learning
       branch: main
   - search
   - badges
@@ -134,7 +135,6 @@ extra_javascript:
 nav:
   - Home: index.md
   - Árvore de Decisão: ./arvore-decisao/main.md
-  - Exploração de Dados: ./exploracao-dados/main.md
   - Roteiros:
     - Roteiro 1: ./roteiro1/main.md
     - Roteiro 2: ./roteiro2/main.md
