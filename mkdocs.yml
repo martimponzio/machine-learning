@@ -133,7 +133,7 @@ extra_javascript:
   - https://fastly.jsdelivr.net/npm/echarts/dist/echarts.min.js
 
 nav:
-  - Home: index.md
+  ##- Home: index.md
   - Árvore de Decisão: ./arvore-decisao/main.md
   - Roteiros:
     - Roteiro 1: ./roteiro1/main.md
