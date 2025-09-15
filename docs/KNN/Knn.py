@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
@@ -41,11 +42,14 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # Treinar modelo KNN (k=5 é um valor padrão inicial)
-knn = KNeighborsClassifier(n_neighbors=5)
-knn.fit(X_train, y_train)
+model = make_pipeline(
+    StandardScaler(),
+    KNeighborsClassifier(n_neighbors=5))
 
 # Predição
-y_pred = knn.predict(X_test)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+
 
 # Avaliação
 print("Acurácia:", accuracy_score(y_test, y_pred))
