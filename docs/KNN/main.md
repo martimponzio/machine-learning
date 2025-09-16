@@ -13,80 +13,35 @@ Percebe-se que os emails classificados como spam (X vermelho) tendem a concentra
 
 
 
-
-
-
 ![Matriz de Confusão](knn_confusion_heatmap.png)
 
+Dos 921 emails no conjunto de teste, 836 foram classificados corretamente.
 
+A classe Não-Spam obteve precisão de 92% e recall de 93%.
 
+A classe Spam apresentou precisão de 89% e recall de 88%, ou seja, teve um pouco mais de dificuldade em identificar spams corretamente, mas ainda com bom desempenho.
 
-
-
-
+Esses números indicam que o modelo tem boa capacidade de generalização, conseguindo capturar padrões importantes para distinguir spam de não-spam.
 
 
 
 ![Acurácia vs k](knn_k_vs_accuracy.png)
 
-## Montagem do Roteiro
+Foi avaliado o impacto da escolha de k no desempenho.
+Valores muito pequenos de k tendem a causar overfitting (alta variabilidade), enquanto valores muito grandes podem suavizar demais as fronteiras de decisão.
 
-Os pontos "tarefas" são os passos que devem ser seguidos para a realização do roteiro. Eles devem ser claros e objetivos. Com evidências claras de que foram realizados.
+O melhor equilíbrio foi observado em torno de k=5, valor adotado para os testes principais.
 
-### Tarefa 1
-
-Instalando o MAAS:
-
-<!-- termynal -->
-
-``` bash
-sudo snap install maas --channel=3.5/Stable
-```
-
-
-![Tela do Dashboard do MAAS](./maas.png)
-/// caption
-Dashboard do MAAS
-///
-
-Conforme ilustrado acima, a tela inicial do MAAS apresenta um dashboard com informações sobre o estado atual dos servidores gerenciados. O dashboard é composto por diversos painéis, cada um exibindo informações sobre um aspecto específico do ambiente gerenciado. Os painéis podem ser configurados e personalizados de acordo com as necessidades do usuário.
-
-### Tarefa 2
-
-## App
-
-
-
-### Tarefa 1
-
-### Tarefa 2
-
-Exemplo de diagrama
-
-```mermaid
-architecture-beta
-    group api(cloud)[API]
-
-    service db(database)[Database] in api
-    service disk1(disk)[Storage] in api
-    service disk2(disk)[Storage] in api
-    service server(server)[Server] in api
-
-    db:L -- R:server
-    disk1:T -- B:server
-    disk2:T -- B:db
-```
-
-[Mermaid](https://mermaid.js.org/syntax/architecture.html){:target="_blank"}
-
-## Questionário, Projeto ou Plano
-
-Esse seção deve ser preenchida apenas se houver demanda do roteiro.
-
-## Discussões
-
-Quais as dificuldades encontradas? O que foi mais fácil? O que foi mais difícil?
 
 ## Conclusão
 
-O que foi possível concluir com a realização do roteiro?
+
+O modelo de KNN aplicado ao dataset Spambase apresentou um desempenho consistente, alcançando cerca de 91% de acurácia nos dados de teste. Esse resultado demonstra que o algoritmo foi capaz de aprender padrões relevantes que diferenciam mensagens legítimas de spams, oferecendo uma solução simples, porém eficiente, para esse tipo de tarefa.
+
+Diferentemente da Árvore de Decisão, que gera regras interpretáveis e permite visualizar a importância de cada variável, o KNN se apoia unicamente na proximidade entre exemplos no espaço de atributos. Essa característica faz com que o modelo seja menos transparente em termos de explicação, mas ao mesmo tempo garante flexibilidade, já que ele pode se adaptar bem a fronteiras de decisão complexas.
+
+A análise exploratória reforçou que atributos como a presença da palavra “free”, o uso de caracteres especiais como “!” e “$”, além da frequência de letras maiúsculas, estão fortemente associados ao spam. Esses sinais refletem práticas comuns em mensagens indesejadas, como apelos visuais e tentativas de chamar a atenção do usuário.
+
+Apesar da boa performance, algumas limitações são inerentes ao KNN. O algoritmo demanda maior custo computacional em bases grandes, pois cada nova predição exige o cálculo da distância em relação a todos os pontos de treinamento. Além disso, seu desempenho é sensível à escolha do parâmetro k e à necessidade de normalização dos dados — aspectos que, se não tratados corretamente, podem reduzir sua eficácia.
+
+De forma geral, o KNN mostrou-se uma alternativa viável e robusta para a classificação de spams no dataset Spambase, com a vantagem de ser um método intuitivo e de fácil implementação. No entanto, para cenários de produção em larga escala, seria interessante compará-lo com algoritmos mais escaláveis e interpretáveis, de modo a equilibrar desempenho, custo e explicabilidade.
