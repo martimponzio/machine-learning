@@ -33,6 +33,10 @@ Valores muito pequenos de k tendem a causar overfitting (alta variabilidade), en
 O melhor equilíbrio foi observado em torno de k=5, valor adotado para os testes principais.
 
 
+![KNN Decision Boundary](knn_decision_boundary.png)
+
+Esse gráfico mostra a projeção dos dados em duas dimensões (PCA 1 e PCA 2) para permitir a visualização da fronteira de decisão do KNN. As regiões coloridas de fundo indicam onde o modelo classifica como spam ou não-spam, enquanto os pontos representam os exemplos reais do conjunto de treino (roxos) e de teste (amarelos). Observa-se que a maior concentração dos pontos está próxima ao centro, região em que ocorre maior sobreposição entre as classes, o que explica parte dos erros de classificação. Ainda assim, é possível perceber áreas bem delimitadas, mostrando que o modelo consegue capturar padrões úteis mesmo em um espaço reduzido para duas dimensões. Essa visualização ilustra como o KNN define suas fronteiras a partir da proximidade entre os pontos, destacando tanto a eficácia quanto as limitações do método em cenários com dados parcialmente sobrepostos.
+
 ## Conclusão
 
 
