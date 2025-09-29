@@ -13,8 +13,6 @@ Método do elbow (WCSS)
 
 Uma etapa crítica no K-Means é escolher o valor de k (número de clusters). Para isso, avaliamos:
 
-
-
 Método elbow(WCSS)
 
 ![K-Means — elbow](kmeans_elbow.png)
@@ -36,7 +34,7 @@ word_freq_free (uso da palavra "free")
 
 O gráfico abaixo mostra os dois clusters encontrados pelo K-Means, com seus respectivos centróides (estrelas vermelhas):
 
-![K-Means — Dispersão 2D](kmeans_scatter_2d.png)
+![K-Means — Dispersão 2D](kmeans_scatter.png)
 
 
 Emails com maior frequência de "!" e "free" tendem a ser agrupados no cluster associado a spam. Já Emails com baixa frequência desses elementos ficam concentrados no cluster de não-spam.
