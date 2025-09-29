@@ -8,9 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-# ---------------------------
-# 1) Ler dados
-# ---------------------------
+
 PATH_DATA = "source/spambase.csv"
 
 colnames = [
