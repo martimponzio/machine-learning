@@ -1,111 +1,134 @@
-
+# docs/projeto/kmeans_bc.py
+from pathlib import Path
 import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
-from sklearn.metrics import accuracy_score, confusion_matrix, silhouette_score
+from sklearn.metrics import confusion_matrix, accuracy_score, silhouette_score
 
-PATH_DATA = "source/breast-cancer.csv"
-OUT_DIR   = "docs/projeto"
-os.makedirs(OUT_DIR, exist_ok=True)
+# =========================
+# Paths robustos
+# =========================
+SCRIPT_DIR = Path(__file__).resolve().parent          # .../docs/projeto
+ROOT_DIR   = SCRIPT_DIR.parents[1]                     # .../
+PATH_DATA  = ROOT_DIR / "source" / "breast-cancer.csv"
+OUT_DIR    = SCRIPT_DIR                                # salva PNGs aqui (docs/projeto)
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 
+# =========================
+# 1) Ler dados + descobrir alvo
+# =========================
 df = pd.read_csv(PATH_DATA)
 
-# tentar alvo só para comparar clusters x rótulos (não é obrigatório no K-Means)
 cands = [c for c in df.columns if c.lower() in ("diagnosis", "target", "class", "label")]
-target_col = cands[0] if cands else None
+target_col = cands[0] if cands else df.columns[-1]
 
-if target_col is not None:
-    y_raw = df[target_col]
+y_raw = df[target_col]
+X = df.drop(columns=[target_col]).select_dtypes(include="number").copy()
+
+# Codifica alvo se vier como texto (M/B, malignant/benign etc.)
+if y_raw.dtype == object:
+    mapa = {"m": 1, "b": 0, "malignant": 1, "benign": 0}
+    y = y_raw.map(lambda v: mapa.get(str(v).lower(), v))
+    if y.dtype == object:  # fallback
+        y = pd.factorize(y_raw)[0]
+    y = pd.Series(y).astype(int)
 else:
-    y_raw = None
+    y = y_raw.astype(int)
 
-X = df.drop(columns=[target_col]) if target_col else df.copy()
-X = X.select_dtypes(include="number").copy()
-
-# padroniza
+# =========================
+# 2) Padronização
+# =========================
 scaler = StandardScaler()
-X_s = scaler.fit_transform(X)
+X_scaled = scaler.fit_transform(X)
 
-# k=2 (benign/malignant costuma ser binário)
+# =========================
+# 3) K-Means (k=2) + “acurácia” por mapeamento de maioria
+# =========================
 k = 2
 kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
-labels = kmeans.fit_predict(X_s)
+clusters = kmeans.fit_predict(X_scaled)
 
-# mapeia cluster -> classe majoritária (se tivermos y)
-if y_raw is not None:
-    if y_raw.dtype == object:
-        map_try = {"M":1,"B":0,"malignant":1,"benign":0}
-        y = y_raw.map(lambda v: map_try.get(str(v).lower(), map_try.get(str(v), v)))
-        if y.dtype == object:
-            y = pd.factorize(y_raw)[0]
-    else:
-        y = y_raw.astype(int)
+# Mapeia cada cluster para a classe majoritária
+mapped = np.zeros_like(clusters)
+for c in range(k):
+    mask = (clusters == c)
+    maioria = pd.Series(y[mask]).mode()[0]
+    mapped[mask] = maioria
 
-    mapped = np.zeros_like(labels)
-    for c in range(k):
-        mask = (labels == c)
-        majority = y[mask].mode()[0]
-        mapped[mask] = majority
+acc = accuracy_score(y, mapped)
+cm  = confusion_matrix(y, mapped)
 
-    acc = accuracy_score(y, mapped)
-    cm  = confusion_matrix(y, mapped)
-    print(f"Acurácia (clusters vs rótulos): {acc:.3f}")
-    print("Matriz de Confusão:\n", cm)
+print(f"Acurácia (comparando clusters com o alvo): {acc:.3f}")
+print("Matriz de Confusão:\n", cm)
 
-# Elbow e silhouette (k=2..10)
+# =========================
+# 4) Elbow e Silhouette (k=2..10)
+# =========================
 Ks = range(2, 11)
-inertias, sils = [], []
+inertias = []
+sil_scores = []
 for kk in Ks:
     km = KMeans(n_clusters=kk, random_state=42, n_init=10)
-    lab = km.fit_predict(X_s)
+    labels = km.fit_predict(X_scaled)
     inertias.append(km.inertia_)
-    sils.append(silhouette_score(X_s, lab))
+    sil_scores.append(silhouette_score(X_scaled, labels))
 
+# Elbow
 plt.figure(figsize=(6,4))
 plt.plot(list(Ks), inertias, marker="o")
 plt.xticks(list(Ks))
 plt.xlabel("Número de clusters (k)")
 plt.ylabel("Inércia (WCSS)")
-plt.title("Método do cotovelo — K-Means (Breast Cancer)")
+plt.title("K-Means — Método do cotovelo (elbow)")
 plt.grid(alpha=0.3)
 plt.tight_layout()
-plt.savefig(f"{OUT_DIR}/bc_kmeans_elbow.png", dpi=180)
+plt.savefig(OUT_DIR / "bc_kmeans_elbow.png", dpi=180)
 plt.close()
 
+# Silhouette
 plt.figure(figsize=(6,4))
-plt.plot(list(Ks), sils, marker="o")
+plt.plot(list(Ks), sil_scores, marker="o")
 plt.xticks(list(Ks))
 plt.xlabel("Número de clusters (k)")
 plt.ylabel("Coeficiente de Silhouette (médio)")
-plt.title("Silhouette — K-Means (Breast Cancer)")
+plt.title("K-Means — Silhouette vs k")
 plt.grid(alpha=0.3)
 plt.tight_layout()
-plt.savefig(f"{OUT_DIR}/bc_kmeans_silhouette.png", dpi=180)
+plt.savefig(OUT_DIR / "bc_kmeans_silhouette.png", dpi=180)
 plt.close()
 
-# Dispersão 2D simples usando as duas colunas de maior variância
-vari = X.var().sort_values(ascending=False)
-feat_x, feat_y = vari.index[:2]
-X2 = df[[feat_x, feat_y]].values
-X2_s = StandardScaler().fit_transform(X2)
-km2 = KMeans(n_clusters=2, random_state=42, n_init=10)
-lab2 = km2.fit_predict(X2_s)
-cent2 = km2.cluster_centers_
-# volta centróide pra escala original
-from sklearn.preprocessing import StandardScaler as SS2
-ss2 = SS2().fit(X2)
-cent2_orig = ss2.inverse_transform(cent2)
+# =========================
+# 5) Dispersão 2D com centróides
+#    (usa duas features com maior variância)
+# =========================
+variancias = X.var().sort_values(ascending=False)
+feat_x, feat_y = variancias.index[:2]
 
-plt.figure(figsize=(7,5))
-plt.scatter(X2[:,0], X2[:,1], c=lab2, s=18, alpha=0.85)
-plt.scatter(cent2_orig[:,0], cent2_orig[:,1], marker="*", s=260, c="red",
-            edgecolors="k", label="Centróides")
-plt.xlabel(feat_x); plt.ylabel(feat_y)
-plt.title("K-Means — Dispersão 2D (maior variância)")
+X2 = X[[feat_x, feat_y]].values
+sc2 = StandardScaler()
+X2_scaled = sc2.fit_transform(X2)
+
+kmeans_2d = KMeans(n_clusters=2, random_state=42, n_init=10)
+labels_2d = kmeans_2d.fit_predict(X2_scaled)
+centros_2d = sc2.inverse_transform(kmeans_2d.cluster_centers_)
+
+plt.figure(figsize=(8,6))
+plt.scatter(X2[:,0], X2[:,1], c=labels_2d, s=20, alpha=0.85)
+plt.scatter(centros_2d[:,0], centros_2d[:,1],
+            marker="*", s=250, c="red", edgecolors="black", label="Centróides")
+plt.xlabel(feat_x)
+plt.ylabel(feat_y)
+plt.title("K-Means — Dispersão 2D com centróides (Breast Cancer)")
 plt.legend()
 plt.tight_layout()
-plt.savefig(f"{OUT_DIR}/bc_kmeans_scatter2d.png", dpi=180)
+plt.savefig(OUT_DIR / "bc_kmeans_scatter.png", dpi=180)
 plt.close()
+
+print("\nGráficos salvos em docs/projeto/:")
+print(" - bc_kmeans_elbow.png")
+print(" - bc_kmeans_silhouette.png")
+print(" - bc_kmeans_scatter.png")
