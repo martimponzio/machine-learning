@@ -1,6 +1,5 @@
-
+# docs/projeto/knn_bc.py
 import os
-from pathlib import Path
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -8,14 +7,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 
-# === Paths robustos (independentes do "cwd") ===
-SCRIPT_DIR = Path(__file__).resolve().parent            # .../docs/projeto
-ROOT_DIR   = SCRIPT_DIR.parents[1]                      # .../ (raiz do repo)
-PATH_DATA  = ROOT_DIR / "source" / "breast-cancer.csv"  # .../source/breast-cancer.csv
-OUT_DIR    = SCRIPT_DIR                                  # salva os PNGs em docs/projeto
-OUT_DIR.mkdir(parents=True, exist_ok=True)
+PATH_DATA = "source/breast-cancer.csv"
+OUT_DIR   = "docs/projeto"
+os.makedirs(OUT_DIR, exist_ok=True)
 
-# --- Seu código original a partir daqui, só trocando PATH_DATA/OUT_DIR por estes ---
 df = pd.read_csv(PATH_DATA)
 
 cands = [c for c in df.columns if c.lower() in ("diagnosis", "target", "class", "label")]
@@ -64,9 +59,5 @@ plt.ylabel("Acurácia no teste")
 plt.title("KNN: Acurácia vs k — Breast Cancer")
 plt.grid(alpha=0.3)
 plt.tight_layout()
-
-out_path = OUT_DIR / "bc_knn_k_vs_acc.png"
-plt.savefig(out_path, dpi=180)
+plt.savefig(f"{OUT_DIR}/bc_knn_k_vs_acc.png", dpi=180)
 plt.close()
-
-print(f"\nGráfico salvo em: {out_path.resolve()}")
