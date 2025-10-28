@@ -2,30 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://martimponzio.github.io/machine-learning/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-10-28</lastmod>
     </url>
     <url>
          <loc>https://martimponzio.github.io/machine-learning/K-means/main/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-10-28</lastmod>
     </url>
     <url>
          <loc>https://martimponzio.github.io/machine-learning/KNN/main/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-10-28</lastmod>
+    </url>
+    <url>
+         <loc>https://martimponzio.github.io/machine-learning/Random-Forest/main/</loc>
+         <lastmod>2025-10-28</lastmod>
     </url>
     <url>
          <loc>https://martimponzio.github.io/machine-learning/arvore-decisao/main/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-10-28</lastmod>
     </url>
     <url>
          <loc>https://martimponzio.github.io/machine-learning/projeto/main/</loc>
-         <lastmod>2025-09-29</lastmod>
-    </url>
-    <url>
-         <loc>https://martimponzio.github.io/machine-learning/roteiro3/main/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-10-28</lastmod>
     </url>
     <url>
          <loc>https://martimponzio.github.io/machine-learning/roteiro4/main/</loc>
-         <lastmod>2025-09-29</lastmod>
+         <lastmod>2025-10-28</lastmod>
     </url>
 </urlset>
