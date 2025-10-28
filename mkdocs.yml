@@ -133,11 +133,11 @@ extra_javascript:
   - https://fastly.jsdelivr.net/npm/echarts/dist/echarts.min.js
 
 nav:
-  ##- Home: index.md
+  - Home: index.md
   - Árvore de Decisão: ./arvore-decisao/main.md
   - Roteiros:
-    - Knn: ./KNN/main.md
-    - K-means: ./K-means/main.md
-    - Roteiro 3: ./roteiro3/main.md
-    - Roteiro 4: ./roteiro4/main.md
+      - Knn: ./KNN/main.md
+      - K-means: ./K-means/main.md
+      - Random_Forest: ./Random-Forest/main.md
+      - Roteiro 4: ./roteiro4/main.md
   - Projeto: ./projeto/main.md

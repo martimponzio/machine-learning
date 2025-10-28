@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-# Random Forest com scikit-learn aplicado ao dataset Spambase
-# Seguindo o formato e estilo do exemplo do professor
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
