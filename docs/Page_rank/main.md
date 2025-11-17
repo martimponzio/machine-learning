@@ -73,72 +73,46 @@ Essas diferenças são extremamente pequenas, confirmando:
 
 A seguir estão os nós com maior PageRank para cada valor de d.
 
-🔹 d = 0.5 — Distribuição mais homogênea
+#### d = 0.5 — Distribuição mais homogênea
 
 O algoritmo se comporta de forma mais aleatória, reduzindo a influência da estrutura da rede.
 
-Rank   Nó	PR
-1	   161	0.004530
-2	   6	0.003520
-3	   63	0.003451
-4	   87	0.003441
-5	   108	0.003202
-6	   130	0.003136
-7	   122	0.002928
-8	   65	0.002922
-9	   107	0.002866
-10	   22	0.002764
+![alt text](image-5.png)
 
 Interpretação:
+
 A importância fica mais distribuída. Não há super-hubs evidentes.
 
 #### d = 0.85 — Cenário padrão do PageRank
 
 Este valor é considerado o mais equilibrado entre navegação aleatória e estrutura da rede.
 
-Rank	Nó	PR
-1	    2	 0.009981
-2	    131	 0.007297
-3	    161	 0.006738
-4	    63	 0.005305
-5	    87	 0.005114
-6	    108	 0.004988
-7	    366	 0.004770
-8	    122	 0.004705
-9	    6	 0.004513
-10	    130	 0.004439
+![alt text](image-4.png)
+
 
 Interpretação:
+
 O nó 2 se destaca como o maior hub da organização, seguido por 131 e 161.
+
 Esses indivíduos provavelmente representam funcionários altamente centrais no fluxo de comunicação interno.
 
 #### d = 0.99 — Forte dependência da estrutura
 
 Aqui o teleporte quase não ocorre, e o PageRank concentra a importância nos hubs.
 
-Rank	Nó	PR
-1	    2	 0.093084
-2	    131	 0.063298
-3	    533	 0.037032
-4	    228	 0.028223
-5	    320	 0.020298
-6	    403	 0.016707
-7	    684	 0.015458
-8	    629	 0.014397
-9	    850	 0.011985
-10	    384	 0.011115
+![alt text](image-3.png)
 
 Interpretação:
+
 Os valores explodem, mostrando forte centralização.
+
 O nó 2 passa de 0.009 → 0.093, quase 10× mais influência.
 
 Isso revela que a rede tem poucos hubs muito conectados que dominam a comunicação.
 
-🧪 Análise do Impacto do Damping Factor
-d	Comportamento	Efeito observado
-0.5	Caminho muito aleatório	Ranking mais uniforme
-0.85	Equilíbrio ideal	Hubs reais da rede aparecem
-0.99	Quase sem teleporte	Concentração extrema do PageRank
+Análise do Impacto do Damping Factor
+
+![alt text](image-2.png)
 
 ## Conclusão:
 
