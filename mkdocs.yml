@@ -139,5 +139,5 @@ nav:
       - Knn: ./KNN/main.md
       - K-means: ./K-means/main.md
       - Random_Forest: ./Random-Forest/main.md
-      - Roteiro 4: ./roteiro4/main.md
+      - Page_Rank: ./Page_rank/main.md
   - Projeto: ./projeto/main.md
