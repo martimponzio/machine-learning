@@ -171,7 +171,7 @@ def avaliar_kmeans(n_clusters: int = 2) -> None:
     clusters_test = kmeans.predict(X_test_scaled)
     y_pred = pd.Series(clusters_test).map(cluster_to_label).to_numpy()
 
-    imprimir_metricas(y_test, y_pred, "K-Means (clusters → rótulos)")
+    imprimir_metricas(y_test, y_pred, "K-Means (clusters rótulos)")
 
 
 

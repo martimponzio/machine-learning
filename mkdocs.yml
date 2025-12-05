@@ -1,6 +1,6 @@
 site_name: machine-learning - SpamBase
 site_author: Ponzio, Martim
-site_url:  https://martimponzio.github.io/machine-learning/
+site_url:  https://martimponzio.github.io/machine-learning
 repo_url: https://github.com/martimponzio/machine-learning
 repo_name: github/machine-learning
 
@@ -133,11 +133,11 @@ extra_javascript:
   - https://fastly.jsdelivr.net/npm/echarts/dist/echarts.min.js
 
 nav:
-  - Home: index.md
   - Modelos:
       - Árvore de Decisão: ./arvore-decisao/main.md
       - Knn: ./KNN/main.md
       - K-means: ./K-means/main.md
+      - Métricas: ./metricas/main.md
       - Random_Forest: ./Random-Forest/main.md
       - Page_Rank: ./Page_rank/main.md
   - Projeto: ./projeto/main.md
